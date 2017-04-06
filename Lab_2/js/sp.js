@@ -78,7 +78,7 @@ function sp(setting){
 		})
 		
 
-		var clusters = DBscan(dataToCluster, 90, 300000, 45 );
+        var clusters = DBscan(dataToCluster, 80, 300000, 55 );
 
 		var newClusters = calcClusters(clusters);
         console.log(clusters);
