@@ -167,8 +167,10 @@ function gaze(setting){
             // Add circles from data
             .attr("cx", function(d){return x(d.cent.x);})
             .attr("cy", function(d){return  y(900 - d.cent.y);})
+
             .attr("r", function(d) {return (d.totalTime+50*d.size)/1000})  // Radius
-            .style("fill", function(d,i){ return segmentColor(3);})
+            .style("fill", function(d,i){ return segmentColor(3);})     //välj segmentColor(i) annars
+
             //.style("opacity", function(d) { return d.RecordingTimestamp/300000 ;})
             .style("opacity", 0.8)
             .style("stroke-opacity",0);
