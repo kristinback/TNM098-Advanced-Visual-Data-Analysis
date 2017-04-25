@@ -78,7 +78,7 @@ function sp(setting){
 		})
 		
 
-		var clusters = DBscan(dataToCluster, 90, 300000, 45 );
+        var clusters = DBscan(dataToCluster, 80, 300000, 55 );
 
 		var newClusters = calcClusters(clusters);
         console.log(clusters);
@@ -148,7 +148,7 @@ function sp(setting){
 			.data(clusters)
 			.enter().append("g")
 				.attr("class", "points")
-				.style("fill", function(p,i){ return color(density[i]);})
+				.style("fill", function(d,i){ return c20c(3);})
 				.style("stroke-opacity",0) 
 			.selectAll(".dot")
 				.data(function(p) {return p;})
@@ -159,7 +159,7 @@ function sp(setting){
             .attr("cx", function(d){return x(d.x);})
             .attr("cy", function(d){return  y(900 - d.y);})
             .attr("r", 10)  // Radius
-			//.style("fill", function(d){ return c20c(d.Country);})
+			.style("fill", function(d){ return c20c(3);})
 			//.style("opacity", function(d) { return d.RecordingTimestamp/300000 ;})
 			.style("opacity", 0.1)
             //tooltip
@@ -216,7 +216,7 @@ function sp(setting){
             .attr("cx", function(d){return x(d.cent.x);})
             .attr("cy", function(d){return  y(900 - d.cent.y);})
             .attr("r", function(d) {return d.size/3})  // Radius
-            //.style("fill", function(d){ return c20c(d.Country);})
+            .style("fill", function(d){ return c20c(3);})
             //.style("opacity", function(d) { return d.RecordingTimestamp/300000 ;})
             .style("opacity", 0.8)
             .style("stroke-opacity",0) 
