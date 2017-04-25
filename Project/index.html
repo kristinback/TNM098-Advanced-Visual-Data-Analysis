@@ -4,8 +4,8 @@
 
 <head>
   <title>VAST</title>
-  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 
 
 
@@ -15,17 +15,44 @@
  
 <body>
 
-   <div id = "map">
+	<div class="container">
+		<h2>Project Visualization</h2>
+		<div class="row">
+		  <div class="col-sm-5 col-md-6"> 
+		  	DIRECTED GRAPH
+		  	<div id="direct" style="height:60vh;">
+		  	</div>
+		  </div>
+		  <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
+		  	MAPEN
+		  	<div id="map" style="height:60vh;">
+		  	</div>
+		  </div>
+		</div>
 
-   	<p>Here goes the map</p>
+		<div class="row">
+		  <div class="col-sm-6 col-md-5 col-lg-6">
+		  	BAR CHART
+		  	<div id="barChart" style="height:60vh;">
+		  	</div>
+		  </div>
+		  <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
+		  	EXPENCES
+		  	<div id="expences" style="height:60vh;">
+		  	</div>
+		  </div>
+		</div>
+	</div>	  
 
+	<script src="js/vendor/jquery-1.10.2.min.js"></script>
+	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="js/d3/d3.min.js"></script>
 
-   </div>
-	  
-	
-	<script src="jquery-1.10.2.min.js"></script>
-	<script src="bootstrap.min.js"></script>
-	<script src="d3/d3.min.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/barChart.js"></script>
+	<script src="js/expences.js"></script>
+	<script src="js/graph.js"></script>
+	<script src="js/main.js"></script>
 
 
 
