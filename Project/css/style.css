@@ -12,3 +12,22 @@
   stroke: #fff;
   stroke-width: 1.5px;
 }
+
+
+/****** Expences ****************/
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}

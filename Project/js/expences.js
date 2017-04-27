@@ -7,16 +7,22 @@ function expences(){
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
 
-    var parseTime = d3.timeParse("%-m/%-d/%Y %H:%M"); // 1/6/2014 7:35
+    var parseTime = d3.time.format("%-m/%-d/%Y %H:%M").parse; // 1/6/2014 7:35
 
-    var x = d3.scaleTime().rangeRound([0, width]),
-	    y = d3.scaleBand().rangeRound([height, 0]).padding(0.1);
+    /*var x = d3.scaleTime().rangeRound([0, width]),
+	    y = d3.scaleBand().rangeRound([height, 0]).padding(0.1);*/
+
+	var y = d3.scale.ordinal()
+	    .rangeRoundBands([height, 0], 0.1, 0.2);
+
+	var x = d3.time.scale()
+	    .range([0, width]);
 
 	var varXaxis = "timestamp";
     var varYaxis = "location";
 
-    var xAxis = d3.axisBottom(x);
-    var yAxis = d3.axisLeft(y);
+    /*var xAxis = d3.axisBottom(x);
+    var yAxis = d3.axisLeft(y);*/
 
     var g = d3.select("#expences").append("svg")
               .attr("id", "g1_svg")
@@ -73,28 +79,22 @@ function expences(){
 		g.append("g")
 		.attr("class", "axis axis--x")
 		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x));
+		.call(d3.svg.axis().scale(x).orient("bottom"));
 
 		g.append("g")
 			.attr("class", "axis axis--y")
-			.call(d3.axisLeft(y).ticks(10, "%"))
-			.append("text")
-			.attr("transform", "rotate(-90)")
-			.attr("y", 6)
-			.attr("dy", "0.71em")
-			.attr("text-anchor", "end")
-			.text("Frequency");
+			.call(d3.svg.axis().scale(y).orient("left"));
 
-		var maxPrice = d3.max(data, function(d) {return d["price"];});
+		/*var maxPrice = d3.max(data, function(d) {return d["price"];});
 		var fraq = 300/y.bandwidth();
-		console.log(maxPrice);
+		console.log(maxPrice);*/
 		scatter.selectAll(".dot")
 			.data(data)
 			.enter().append("circle")
 			.attr("class", "dot")
 			.attr("cx", function(d) { return x(parseTime(d[varXaxis])); })
-			.attr("cy", function(d) { return y(d[varYaxis]) + y.bandwidth()/2; }) 
-			.attr("r", function(d) { return 2+  d.price/fraq; }) // d.size/fraq ,  d.end - d.begin
+			.attr("cy", function(d) { return y(d[varYaxis]) }) // + y.bandwidth()/2; 
+			.attr("r", function(d) { return 10; }) // d.size/fraq ,  d.end - d.begin
 			.style("opacity",0.8)
 			.style("fill", "blue");
 	}
