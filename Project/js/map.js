@@ -20,9 +20,10 @@ function map(){
     var g = svg.append("g");
 
     //Sets the map projection
-    /*var projection = d3.geo.mercator()
-            .center([8.25, 56.8])
-            .scale(700);*/
+    var projection = d3.geo.mercator()
+            .scale(1)
+            .rotate([-24,-36])
+            .translate([width / 2, height / 2]);
 
     /*var projection = d3.geo.albers()
 		    .center([0, 36.045503])
@@ -30,11 +31,12 @@ function map(){
 		    .parallels([50, 60])
 		    .scale(600)
 		    .translate([width / 2, height / 2]);*/
+
 	/*var projection = d3.geo.mercator()
 	    .scale(700) // (width - 3) / (2 * Math.PI)
 	    .translate([width / 2, height / 2]);*/
 
-	var projection = d3.geo.conicEqualArea();
+	//var projection = d3.geo.conicEqualArea();
 
     //Creates a new geographic path generator and assing the projection        
     var path = d3.geo.path().projection(projection);
