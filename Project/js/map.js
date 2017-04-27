@@ -67,7 +67,12 @@ function map(){
             .attr("cy", function(d) {return projection(d.geometry.coordinates[0])[1];})
             .attr("r", 1)
             .style("opacity", 0.1)
-            .style("fill", "orange")
+            .style("fill", "orange");
+
+
+
+
+
     }
 
 
