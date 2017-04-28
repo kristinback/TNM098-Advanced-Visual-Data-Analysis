@@ -1,0 +1,14 @@
+{
+  "name": "danalys",
+  "version": "1.0.0",
+  "description": "Project in the course TNM098 at LIU",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
