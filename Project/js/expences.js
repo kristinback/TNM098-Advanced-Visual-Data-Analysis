@@ -1,4 +1,4 @@
-function expences(){
+function expences(cc_data){
 
 	var idDiv = $("#expences");
 
@@ -24,6 +24,14 @@ function expences(){
     /*var xAxis = d3.axisBottom(x);
     var yAxis = d3.axisLeft(y);*/
 
+    var tip = d3.tip()
+		.attr('class', 'd3-tip')
+		.offset([-10, 0])
+		.html(function(d) {
+			var res = d.timestamp.split(" ");
+			return "<strong>Money spent:</strong> <span style='color:red'>" + d.price + " $</span> <br> at " + res[1];
+		})
+
     var g = d3.select("#expences").append("svg")
               .attr("id", "g1_svg")
               .attr("data-margin-right", margin.right)
@@ -34,6 +42,8 @@ function expences(){
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    g.call(tip);
 
     var clip = g.append("defs").append("svg:clipPath")
 	            .attr("id", "clip")
@@ -47,20 +57,22 @@ function expences(){
 	             .attr("id", "scatterplot")
 	             .attr("clip-path", "url(#clip)");
 
-	d3.csv("data/cc_data.csv", function(data) {
-		console.log(data);
-		
-		max = d3.max(data, function(d) { return parseTime(d[varXaxis]); });
-		min = d3.min(data, function(d) { return parseTime(d[varXaxis]); });
-		y.domain(data.map(function(d) { return d[varYaxis]; }));
-		x.domain([min, max]);
+	console.log(cc_data);
+	
+	max = d3.max(cc_data, function(d) { return parseTime(d[varXaxis]); });
+	min = d3.min(cc_data, function(d) { return parseTime(d[varXaxis]); });
+	y.domain(cc_data.map(function(d) { return d[varYaxis]; }));
+	//x.domain([min, max]);
+	x.domain([d3.time.day.floor(min),d3.time.day.ceil(max)]);
 
-		console.log(min);
-		console.log(max);
+	console.log(min);
+	console.log(max);
 
-		person_data = updateData(data,["Edvard", "Vann"]);
-		draw(person_data);
-	});
+	//person_data = updateData(cc_data,["Albina", "Hafon"]);
+	//person_data = updateData(cc_data,["Edvard", "Vann"]);
+	person_data = updateData(cc_data,["Stenig", "Fusil"]);
+	//person_data = updateData(cc_data,["Minke", "Mies"]);
+	draw(person_data);
 
 	function updateData(data, person) {
 		// data : raw cc_data, person : [firstname, lastname]
@@ -85,18 +97,31 @@ function expences(){
 			.attr("class", "axis axis--y")
 			.call(d3.svg.axis().scale(y).orient("left"));
 
-		/*var maxPrice = d3.max(data, function(d) {return d["price"];});
-		var fraq = 300/y.bandwidth();
-		console.log(maxPrice);*/
-		scatter.selectAll(".dot")
+		var maxPrice = d3.max(data, function(d) {return d["price"];});
+		var fraq = maxPrice/y.rangeBand();
+		console.log(maxPrice);
+		console.log(y.rangeBand());
+		console.log(fraq)
+		console.log(maxPrice/fraq)
+		scatter.selectAll(".dotSize")
 			.data(data)
 			.enter().append("circle")
-			.attr("class", "dot")
+			.attr("class", "dotSize")
 			.attr("cx", function(d) { return x(parseTime(d[varXaxis])); })
-			.attr("cy", function(d) { return y(d[varYaxis]) }) // + y.bandwidth()/2; 
-			.attr("r", function(d) { return 10; }) // d.size/fraq ,  d.end - d.begin
-			.style("opacity",0.8)
-			.style("fill", "blue");
+			.attr("cy", function(d) { return y(d[varYaxis]) + y.rangeBand()/2 }) // + y.bandwidth()/2; 
+			.attr("r", function(d) { return 3 + d.price/(2*fraq); }) // d.size/fraq ,  d.end - d.begin
+			.style("opacity",0.6)
+			.style("fill", "blue")
+			.on('mouseover', tip.show)
+      		.on('mouseout', tip.hide);
+
+		scatter.selectAll(".dotCenter")
+			.data(data)
+			.enter().append("circle")
+			.attr("class", "dotCenter")
+			.attr("cx", function(d) { return x(parseTime(d[varXaxis])); })
+			.attr("cy", function(d) { return y(d[varYaxis]) + y.rangeBand()/2 }) // + y.bandwidth()/2; 
+			.attr("r", 1); // d.size/fraq ,  d.end - d.begin
 	}
 
 }
