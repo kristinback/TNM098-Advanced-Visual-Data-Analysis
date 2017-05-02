@@ -1,9 +1,7 @@
 // var express = require('express')
 // var app = express()
 
-// app.get('/', function (req, res) {
-//   res.send('Hello World!')
-// })
+
 
 // app.listen(3000, function () {
 //   console.log('Example app listening on port 3000!')
@@ -12,13 +10,16 @@
 
 var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("gps.db");
-
+var http = require('http');
 var express = require("express");
 var app = express();
 var path = require("path");
 
 app.use(express.static(path.join(__dirname, 'client')));
 
+
+
+console.log("hej");
 
 /******************Example on how to write this *********************/
 
@@ -60,17 +61,14 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 
 
-// app.get("/fact", function(req, res){
-//   db.all("SELECT * FROM facts", function(err, rows){
+// app.get("/gps", function(req, res){
+//   db.all("SELECT * FROM gpsTable", function(err, rows){
 //     var data = new Array();
 //     var index = 0;
 //     var preId = 0;
+//     console.log("ja");
 //     rows.forEach( function(row, indx) {
-//       if(preId != row.Id) {
-//         data[indx] = row; index++;
-//         ageAtDiagnosis = getAge(row.Age, row.FirstPsychosis);
-//         data[indx].ageAtDiagnosis = ageAtDiagnosis;
-//       }
+//   		console.log("oj");
 //     });
 //     res.json(data);
 //     console.log(index);
