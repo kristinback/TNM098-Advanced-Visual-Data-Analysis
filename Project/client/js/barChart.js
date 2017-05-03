@@ -187,7 +187,9 @@ function barChart(time_data){
             .attr("x", function(d) { return x(d.start); })
             .attr("y", function(d) { return y(d.person) + y.rangeBand()/2 - 10; }) 
             .attr("width", function(d) { return x(d.end) - x(d.start); })
-            .attr("height", 20);
+            .attr("height", 20)
+            .on('mouseover', tip.show)
+      		.on('mouseout', tip.hide);
 	}
 
 }
