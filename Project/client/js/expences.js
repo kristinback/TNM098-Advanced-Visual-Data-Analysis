@@ -103,7 +103,7 @@ function expences(cc_data){
 		background.push(stamp)
 		//console.log(now);
 	}
-	console.log(background)
+	//console.log(background)
 
 	//person_data = updateData(cc_data,["Albina", "Hafon"]);
 	//person_data = updateData(cc_data,["Edvard", "Vann"]);

@@ -68,11 +68,45 @@ function barChart(time_data){
 	//console.log(min);
 	//console.log(max);
 
+	var start = x.domain()[0];
+	var end = x.domain()[1];
+	var now = start;
+	var state = "start";
+	var background = [];
+	while(now < end) {
+		stamp = {
+				start : now,
+			}
+		if (state == "start") { // 00:00 - 06:00 night
+			stamp.state = "night";
+			state = "night";
+			now = d3.time.hour.offset(now,6); // equal steps: 4
+		}
+		else if (state == "night") { // 06:00 - 12:00 fm 
+			state = "fm";
+			stamp.state = "fm";
+			now = d3.time.hour.offset(now,6); // equal steps: 8
+		}
+		else if (state == "fm") { // 12:00 - 22:00
+			state = "em";
+			stamp.state = "em";
+			now = d3.time.hour.offset(now,10); // equal steps: 8
+		}
+		else { // is em, 22:00 - 06:00
+			state = "night";
+			stamp.state = "night";
+			now = d3.time.hour.offset(now,8);
+		}
+		stamp.end = now;
+		background.push(stamp)
+		//console.log(now);
+	}
+
 	person_data = updateData(time_data,["Albina", "Hafon"]);
 	//person_data = updateData(time_data,["Edvard", "Vann"]);
 	//person_data = updateData(time_data,["Stenig", "Fusil"]);
 	//person_data = updateData(time_data,["Minke", "Mies"]);
-	draw(person_data);
+	draw(person_data,background);
 
 	function updateData(data, person) {
 		// data : raw time_data, person : [firstname, lastname]
@@ -87,7 +121,7 @@ function barChart(time_data){
 		return time_person;
 	}
 
-	function draw(data) {
+	function draw(data, background) {
 		g.append("g")
 		.attr("class", "axis axis--x")
 		.attr("transform", "translate(0," + height + ")")
@@ -96,6 +130,24 @@ function barChart(time_data){
 		g.append("g")
 			.attr("class", "axis axis--y")
 			.call(d3.svg.axis().scale(y).orient("left"));
+
+
+		var top = y.domain()[y.domain().length - 1];
+		var bottom = y.domain()[0];
+		scatter.selectAll("bar")
+            .data(background)
+            .enter().append("rect")
+            .attr('class', 'bar')
+            .attr("fill", function(d) {
+            	if (d.state == "night") { return "black"; }
+            	else if (d.state == "fm") { return "pink"; }
+            	else if (d.state == "em") { return "orange"; }
+            })
+            .attr("opacity", 0.2)
+            .attr("x", function(d) { return x(d.start); })
+            .attr("y", function(d) { return y(top) - y.rangeBand()/2; }) // y.domain()[y.domain().length - 1]
+            .attr("width", function(d) { return x(d.end) - x(d.start); })
+            .attr("height", function(d) { return  y(bottom) - y(top) + 2*y.rangeBand(); });
 
 		var maxtime = d3.max(data, function(d) {return d["time"];});
 		var fraq = maxtime/y.rangeBand();
