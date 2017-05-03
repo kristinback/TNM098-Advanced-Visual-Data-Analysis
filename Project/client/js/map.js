@@ -47,7 +47,7 @@ function map(){
     //Loads geo data
     d3.json("data/streets.json", function (error, mapData) {
         //var streeets = topojson.feature(mapData, mapData.features).features;
-        console.log(mapData);
+        //console.log(mapData);
         draw(mapData.features)
     });
 

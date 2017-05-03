@@ -57,7 +57,7 @@ function expences(cc_data){
 	             .attr("id", "scatterplot")
 	             .attr("clip-path", "url(#clip)");
 
-	console.log(cc_data);
+	//console.log(cc_data);
 	
 	max = d3.max(cc_data, function(d) { return parseTime(d[varXaxis]); });
 	min = d3.min(cc_data, function(d) { return parseTime(d[varXaxis]); });
@@ -65,8 +65,8 @@ function expences(cc_data){
 	//x.domain([min, max]);
 	x.domain([d3.time.day.floor(min),d3.time.day.ceil(max)]);
 
-	console.log(min);
-	console.log(max);
+	//console.log(min);
+	//console.log(max);
 
 	//person_data = updateData(cc_data,["Albina", "Hafon"]);
 	//person_data = updateData(cc_data,["Edvard", "Vann"]);
@@ -83,7 +83,7 @@ function expences(cc_data){
 			}
 		})
 		y.domain(cc_person.map(function(d) { return d[varYaxis]; }));
-		console.log(cc_person)
+		//console.log(cc_person)
 		return cc_person;
 	}
 
@@ -99,10 +99,10 @@ function expences(cc_data){
 
 		var maxPrice = d3.max(data, function(d) {return d["price"];});
 		var fraq = maxPrice/y.rangeBand();
-		console.log(maxPrice);
-		console.log(y.rangeBand());
-		console.log(fraq)
-		console.log(maxPrice/fraq)
+		// console.log(maxPrice);
+		// console.log(y.rangeBand());
+		// console.log(fraq)
+		// console.log(maxPrice/fraq)
 		scatter.selectAll(".dotSize")
 			.data(data)
 			.enter().append("circle")
