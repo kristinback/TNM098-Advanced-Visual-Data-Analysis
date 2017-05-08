@@ -3,7 +3,7 @@ function sp(setting){
     var self = this; // for internal d3 functions
 
     var spString = "#sp" + setting;
-    console.log(spString);
+   
     var spDiv = $(spString);
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},

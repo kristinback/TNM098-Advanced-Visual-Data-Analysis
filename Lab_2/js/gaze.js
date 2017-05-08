@@ -65,12 +65,30 @@ function gaze(setting){
 
         dataToCluster = [];
         data.forEach(function(d,i){
-            dataToCluster[i] = {
+            var t = parseInt(d.RecordingTimestamp);
+            /*if ( (60000*setting <= t )  && (t <= 60000*(setting+1))) {
+                newdatapoint = {
+                    x : parseInt(d.GazePointX),
+                    y : parseInt(d.GazePointY),
+                    value : t // FixationIndex
+                };
+                dataToCluster.push(newdatapoint);
+            }
+            else{
+             console.log("error");   
+            }*/
+            newdatapoint = {
                 x : parseInt(d.GazePointX),
                 y : parseInt(d.GazePointY),
-                value : parseInt(d.RecordingTimestamp) // FixationIndex
+                value : t // FixationIndex
             };
+            dataToCluster.push(newdatapoint);
+            
         })
+        console.log(60000*setting)
+        console.log(60000*(setting+1))
+        console.log(setting);
+        console.log(dataToCluster);
 
         var clusters = DBscan(dataToCluster, 80, 300000, 55 );
         var center = calcClusters(clusters);
@@ -87,7 +105,7 @@ function gaze(setting){
         })
 
         reducedData.sort(function(a,b){return a.value - b.value});
-        console.log(reducedData);
+        //console.log(reducedData);
         var lastCluster;
         var tempLast;
         var something = reducedData.filter(function(d,i) {
@@ -107,7 +125,7 @@ function gaze(setting){
 
         })
 
-        console.log(center);
+        //console.log(center);
 
 
         draw(something, center);
@@ -116,42 +134,16 @@ function gaze(setting){
     function draw(drawData, clusters)
     {
 
-        /*svg.append("linearGradient")
-            .attr("id", "temperature-gradient")
-            .attr("gradientUnits", "userSpaceOnUse")
-            .attr("x1", 0).attr("y1", y(500))
-            .attr("x2", 0).attr("y2", y(800))
-        .selectAll("stop")
-            .data([
-                {offset: "0%", color: "steelblue"},
-                {offset: "50%", color: "gray"},
-                {offset: "100%", color: "red"}
-            ])
-        .enter().append("stop")
-            .attr("offset", function(d) { return d.offset; })
-            .attr("stop-color", function(d) { return d.color; });*/
-
-        /*svg.append("path")
-            .datum(drawData)
-            .attr("class", "line")
-            .attr("d", line)
-            .attr("stroke", "#temperature-gradient")
-            .attr("stroke-linejoin", "round")
-            //.attr("stroke-opacity", 0.6)
-            .attr("stroke-linecap", "round")
-            .attr("stroke-width", 1.5)
-            .attr("fill", "none");*/
-
         var segmentColor = d3.scale.category10();//["#2AC0D4", "#000000"];
-        var segments = 10;
+        var segments = 5;
         var jump = 300000/segments; // time 300000, index 750
-        for (var i = 0; i < segments; i++) {
+        for (var i = 2; i < 3; i++) {
             svg.append("path")
                 //.datum(drawData)
                 .attr("d", line(drawData.filter(function(d) {
                     return (d.value > i*jump && d.value < (i+1)*jump);
                 })))
-                .attr("stroke", color(i))
+                .attr("stroke", "black")
                 .attr("stroke-linejoin", "round")
                 //.attr("stroke-opacity", 0.6)
                 .attr("stroke-linecap", "round")

@@ -69,6 +69,7 @@ function expences(cc_data){
 	//console.log(min);
 	//console.log(max);
 
+
 	// time, backround
 	//console.log();
 	var start = x.domain()[0];
@@ -105,6 +106,7 @@ function expences(cc_data){
 		//console.log(now);
 	}
 	//console.log(background)
+
 
 	//person_data = updateData(cc_data,["Albina", "Hafon"]);
 	//person_data = updateData(cc_data,["Edvard", "Vann"]);
@@ -155,6 +157,7 @@ function expences(cc_data){
 
 		var maxPrice = d3.max(data, function(d) {return d["price"];});
 		var fraq = maxPrice/y.rangeBand();
+
 		scatter.selectAll(".dotSize")
 			.data(data)
 			.enter().append("circle")

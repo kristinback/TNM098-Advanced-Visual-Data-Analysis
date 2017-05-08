@@ -177,7 +177,7 @@ function barChart(time_data){
 
 		var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
 		var fraq = maxtime/y.rangeBand();
-		//console.log(maxtime)
+
 		scatter.selectAll("bar")
             .data(data)
             .enter().append("rect")
