@@ -55,3 +55,7 @@
   top: 100%;
   left: 0;
 }
+
+.small_text {
+	font-size: 8px;
+}
