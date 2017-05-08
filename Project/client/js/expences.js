@@ -3,7 +3,7 @@ function expences(cc_data){
 	var idDiv = $("#expences");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 100},
+	var margin = {top: 20, right: 20, bottom: 20, left: 130},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
 
@@ -65,6 +65,7 @@ function expences(cc_data){
 	//x.domain([min, max]);
 	x.domain([d3.time.day.floor(min),d3.time.day.ceil(max)]);
 
+	console.log(y.domain())
 	//console.log(min);
 	//console.log(max);
 

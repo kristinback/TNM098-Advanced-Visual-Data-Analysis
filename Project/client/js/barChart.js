@@ -3,7 +3,7 @@ function barChart(time_data){
 	var idDiv = $("#barChart");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 100},
+	var margin = {top: 20, right: 20, bottom: 20, left: 130},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
 
@@ -177,7 +177,7 @@ function barChart(time_data){
 
 		var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
 		var fraq = maxtime/y.rangeBand();
-		console.log(maxtime)
+		//console.log(maxtime)
 		scatter.selectAll("bar")
             .data(data)
             .enter().append("rect")

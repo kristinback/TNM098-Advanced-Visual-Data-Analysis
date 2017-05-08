@@ -2,9 +2,11 @@
 
 
 var graph1 = graph();
-var map1 = map();
+//var map1 = map();
 var barChart1; // = barChart();
 var expences1;// = expences();
+
+var testmap = map2();
 
 d3.csv("data/cc_data.csv", function(cc_data) {
 
