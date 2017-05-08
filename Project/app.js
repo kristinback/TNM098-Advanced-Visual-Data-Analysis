@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 
 
-console.log("hej");
+// console.log("hej");
 
 /******************Example on how to write this *********************/
 
@@ -61,19 +61,19 @@ console.log("hej");
 
 
 
-// app.get("/gps", function(req, res){
-//   db.all("SELECT * FROM gpsTable", function(err, rows){
-//     var data = new Array();
-//     var index = 0;
-//     var preId = 0;
-//     console.log("ja");
-//     rows.forEach( function(row, indx) {
-//   		console.log("oj");
-//     });
-//     res.json(data);
-//     console.log(index);
-//   });
-// });
+app.get("/gps", function(req, res){
+   	db.all("SELECT * FROM gpsTable", function(err, rows){
+	    var data = new Array();
+	    var index = 0;
+	    var preId = 0;
+	    console.log("ja");
+	    rows.forEach( function(row, indx) {
+	   		console.log("oj");
+	    });
+	    res.json(data);
+	    console.log(index);
+ 	});
+});
 
 
 app.listen(3000,function(){
