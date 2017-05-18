@@ -1,6 +1,36 @@
 function sequence(sequence){
 
-	console.log("sequence");
+	// console.log("sequence");
+
+	// console.log(sequence[1]["personSeq1_ " +1]);
+
+	//loopa igenom sequence och alla object
+	var seqData = [];
+	sequence.forEach(function(d,j){
+		for (var i = 1; i <= 88; i++ ){
+
+			if(i < 10){
+				newEntry = {
+					person: j+1,
+					store: d["personSeq1_ " +i],
+					classification: d["personSeq2_ " +i],
+					startTime: d["personSeq3_ " +i],
+					endTime: d["personSeq4_ " +i]
+				}
+			}
+			else{
+				newEntry = {
+					person: j+1,
+					store: d["personSeq1_" +i],
+					classification: d["personSeq2_" +i],
+					startTime: d["personSeq3_" +i],
+					endTime: d["personSeq4_" +i]
+				}
+			}
+			seqData.push(newEntry);
+		}
+	});
+	console.log(seqData);
 
 	var idDiv = $("#sequence");
 
@@ -9,29 +39,21 @@ function sequence(sequence){
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
 
-    var parseTime = d3.time.format("%-m/%-d/%Y %H:%M").parse; // 1/6/2014 7:35
+    var parseTime = d3.time.format("%-m/%-d/%Y %H:%M:%S").parse; // 1/6/2014 7:35:00
 
-    /*var x = d3.scaleTime().rangeRound([0, width]),
-	    y = d3.scaleBand().rangeRound([height, 0]).padding(0.1);*/
+	var y = d3.time.scale().range([0, height]);
+	var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1,0.2);
+	
 
-	var y = d3.scale.ordinal()
-	    .rangeRoundBands([height, 0], 0.1, 0.2);
+	// var varXaxis = "person";
+ 	// var varYaxis = "time";
 
-	var x = d3.time.scale()
-	    .range([0, width]);
-
-	var varXaxis = "time";
-    var varYaxis = "person";
-
-    /*var xAxis = d3.axisBottom(x);
-    var yAxis = d3.axisLeft(y);*/
 
     var tip = d3.tip()
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
 		.html(function(d) {
-			var res = d.timestamp.split(" ");
-			return "<strong>Time spent together:</strong> <span style='color:red'>" + d.time + " min</span> <br> at " + res[1];
+			return "<strong>Place:</strong> <span style='color:red'>" + d["store"];
 		})
 
     var g = d3.select("#sequence").append("svg")
@@ -59,19 +81,20 @@ function sequence(sequence){
 	             .attr("id", "scatterplot")
 	             .attr("clip-path", "url(#clip)");
 
-	//console.log(sequence);
 	
-	max = d3.max(sequence, function(d) { return parseTime(d[varXaxis]); });
-	min = d3.min(sequence, function(d) { return parseTime(d[varXaxis]); });
+	min = parseTime("1/6/2014 0:00:00");
+	max = parseTime("1/20/2014 0:00:00");
 	
-	//y.domain(sequence.map(function(d) { return d[varYaxis]; }));
+	y.domain([min, max]);
 	//x.domain([min, max]);
-	//x.domain([d3.time.day.floor(min),d3.time.day.ceil(max)]);
+	x.domain(seqData.map(function(d){return d["person"];}));
+	//,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36
+	// console.log(x.domain());
+	//console.log(x.range());
+	draw(seqData);
 
-	draw(sequence);
 
-
-	function draw(data, background) {
+	function draw(data) {
 		g.append("g")
 		.attr("class", "axis axis--x")
 		.attr("transform", "translate(0," + height + ")")
@@ -80,44 +103,31 @@ function sequence(sequence){
 		g.append("g")
 			.attr("class", "axis axis--y")
 			.call(d3.svg.axis().scale(y).orient("left"));
-
-
-		var top = y.domain()[y.domain().length - 1];
-		var bottom = y.domain()[0];
-		scatter.selectAll("bar")
-            .data(background)
-            .enter().append("rect")
-            .attr('class', 'bar')
-            .attr("fill", function(d) {
-            	if (d.state == "night") { return "black"; }
-            	else if (d.state == "fm") { return "pink"; }
-            	else if (d.state == "em") { return "orange"; }
-            })
-            .attr("opacity", 0.2)
-            .attr("x", function(d) { return x(d.start); })
-            .attr("y", function(d) { return y(top) - y.rangeBand()/2; }) // y.domain()[y.domain().length - 1]
-            .attr("width", function(d) { return x(d.end) - x(d.start); })
-            .attr("height", function(d) { return  y(bottom) - y(top) + 2*y.rangeBand(); });
-
-		var maxtime = d3.max(data, function(d) {return d["time"];});
-		var fraq = maxtime/y.rangeBand();
 		
+		// var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
 
-		var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
-		var fraq = maxtime/y.rangeBand();
+		//console.log(sequence[1]["personSeq1_ 1"]);
 
 		scatter.selectAll("bar")
             .data(data)
             .enter().append("rect")
-            .attr('class', 'bar')
-            .attr("fill", "blue")
-            .attr("opacity", 0.6)
-            .attr("x", function(d) { return x(d.start); })
-            .attr("y", function(d) { return y(d.person) + y.rangeBand()/2 - 10; }) 
-            .attr("width", function(d) { return x(d.end) - x(d.start); })
-            .attr("height", 20)
-            .on('mouseover', tip.show)
-      		.on('mouseout', tip.hide);
+           	.attr("class", "bar")        
+	        .attr("fill", function(d){
+	        	
+	        	switch (d["classification"]){
+	        		case "1": return "#a6cee3";	//work
+	        		case "2": return "#1f78b4";	//store
+	        		case "3": return "#b2df8a";	//home
+	        		case "4": return "#33a02c";	//other
+	        	}
+	        })
+	        //.attr("opacity", 0.6)
+	        .attr("x", function(d) { return x(d["person"]); })
+	        .attr("y", function(d) { return y(parseTime(d["startTime"]));})
+	        .attr("width", x.rangeBand())
+	        .attr("height", function(d) { return y(parseTime(d["endTime"]))- y(parseTime(d["startTime"])); })
+	        .on('mouseover', tip.show)
+	      	.on('mouseout', tip.hide);
 	}
 
 }

@@ -35,8 +35,8 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 
 
 
-d3.csv("data/personSeq.csv", function(data) {
+d3.csv("data/personSeq2.csv", function(data) {
 	var hej = data[2];
-	seq1 = sequence(hej);
+	seq1 = sequence(data);
 });
 

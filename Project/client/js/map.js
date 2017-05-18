@@ -54,7 +54,7 @@ function map(){
     d3.json("http:/gps", function(gpsData){
         //var streeets = topojson.feature(mapData, mapData.features).features;
         //console.log(mapData);
-        console.log("jajajajja");
+        
         console.log(gpsData);
     });
 
