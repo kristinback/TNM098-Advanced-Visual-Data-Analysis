@@ -1,7 +1,7 @@
 function map2(){
 
     // LatLng = Norr, Öst
-	var mymap = L.map('mapid').setView([36.075153, 24.867117], 13);
+	var mymap = L.map('mapid').setView([36.075153, 24.867117], 14);
 
     var imageUrl = 'img/background_map.jpg',
         imageBounds = [[36.045003,24.824002], [36.095303,24.910352]];
@@ -19,24 +19,40 @@ function map2(){
         };
         L.geoJson(data, {style: myStyle}).addTo(mymap);
     });
-	
 
-    var circle = L.circle([36.0751, 24.8671], {
+    d3.csv("data/centroids.csv", function(poi) {
+        poi.forEach(function(p) {
+            if (p.class == 1) {
+                poi_color = 'blue';
+            }
+            else {
+                poi_color = 'red';
+            }
+            var circle = L.circle([p.lat, p.lng], {
+                color: poi_color,
+                fillColor: poi_color,
+                //fillOpacity: 0.5,
+                radius: 50
+            }).addTo(mymap);
+        })
+	})
+
+    /*var circle = L.circle([36.0751, 24.8671], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 5
+        radius: 20
     }).addTo(mymap);
     var circle = L.circle([36.0752, 24.8672], {
         color: 'blue',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 5
+        radius: 20
     }).addTo(mymap);
     var circle = L.circle([36.0753, 24.8673], {
         color: 'yellow',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 5
-    }).addTo(mymap);
+        radius: 20
+    }).addTo(mymap);*/
 }
