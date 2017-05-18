@@ -1,7 +1,8 @@
-var graph1 = graph();
+//var graph1 = graph();
 //var map1 = map();
 var barChart1; // = barChart();
 var expences1;// = expences();
+var seq1;
 
 var testmap = map2();
 
@@ -30,3 +31,12 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 	})
 	barChart1 = barChart(time_data);
 });
+
+
+
+
+d3.csv("data/personSeq.csv", function(data) {
+	var hej = data[2];
+	seq1 = sequence(hej);
+});
+
