@@ -10,28 +10,33 @@ function map2(){
     // 36033029, 24494631
     // 36070000, 24555336
 
-
     $.getJSON("data/streets.json",function(data){
         // add GeoJSON layer to the map once the file is loaded
         var myStyle = {
-            "color": "orange",
+            "color": "#ffbb78",
             "opacity": 0.5
         };
         L.geoJson(data, {style: myStyle}).addTo(mymap);
     });
 
-    d3.csv("data/centroids.csv", function(poi) {
+    d3.csv("data/centroids3.csv", function(poi) {
         poi.forEach(function(p) {
-            if (p.class == 1) {
-                poi_color = 'blue';
+            if (p.classification == 1) { // work
+                poi_color = '#d62728';
+            }
+            else if (p.classification == 2) { // store
+                poi_color = '#17becf';
+            }
+            else if (p.classification == 3) { // home
+                poi_color = '#6b6ecf';
             }
             else {
-                poi_color = 'red';
+                poi_color = '#e377c2'; // other
             }
             var circle = L.circle([p.lat, p.lng], {
                 color: poi_color,
                 fillColor: poi_color,
-                //fillOpacity: 0.5,
+                fillOpacity: 1.0,
                 radius: 50
             }).addTo(mymap);
         })

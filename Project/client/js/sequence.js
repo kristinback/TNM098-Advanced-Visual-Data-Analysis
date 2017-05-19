@@ -115,10 +115,10 @@ function sequence(sequence){
 	        .attr("fill", function(d){
 	        	
 	        	switch (d["classification"]){
-	        		case "1": return "#a6cee3";	//work
-	        		case "2": return "#1f78b4";	//store
-	        		case "3": return "#b2df8a";	//home
-	        		case "4": return "#33a02c";	//other
+	        		case "1": return "#d62728";	//work
+	        		case "2": return "#17becf";	//store
+	        		case "3": return "#6b6ecf";	//home
+	        		case "4": return "#e377c2";	//other
 	        	}
 	        })
 	        //.attr("opacity", 0.6)
