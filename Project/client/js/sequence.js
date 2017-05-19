@@ -30,7 +30,6 @@ function sequence(sequence){
 			seqData.push(newEntry);
 		}
 	});
-	console.log(seqData);
 
 	var idDiv = $("#sequence");
 

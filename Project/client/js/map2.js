@@ -20,14 +20,9 @@ function map2(){
         L.geoJson(data, {style: myStyle}).addTo(mymap);
     });
 
-    d3.csv("data/centroids.csv", function(poi) {
+    d3.csv("data/centroids1.csv", function(poi) {
         poi.forEach(function(p) {
-            if (p.class == 1) {
-                poi_color = 'blue';
-            }
-            else {
-                poi_color = 'red';
-            }
+            poi_color = "green";
             var circle = L.circle([p.lat, p.lng], {
                 color: poi_color,
                 fillColor: poi_color,
