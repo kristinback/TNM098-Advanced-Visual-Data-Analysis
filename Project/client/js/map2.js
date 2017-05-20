@@ -5,7 +5,15 @@ function map2(){
 
     var imageUrl = 'img/background_map.jpg',
         imageBounds = [[36.045003,24.824002], [36.095303,24.910352]];
+    
     L.imageOverlay(imageUrl, imageBounds).addTo(mymap);
+    
+    var idDiv1 = $("#legend");
+
+            // Set the margin, width and height
+    var margin1 = {top: 5, right: 5, bottom: 5, left: 5},
+        width1 = idDiv1.width() - margin1.right - margin1.left,
+        height1 = idDiv1.height() - margin1.top - margin1.bottom;
 
     // 36033029, 24494631
     // 36070000, 24555336
@@ -41,6 +49,48 @@ function map2(){
             }).addTo(mymap);
         })
 	})
+
+
+
+    /*****Color Legend******/
+    var svgContainer = d3.select("#legend1").append("svg")
+            .attr("width", width1)
+            .attr("height", height1);
+
+        svgContainer.append("circle")
+            .attr("cx", 316)
+            .attr("cy", 12)
+            .attr("r", 10)
+            .style("fill", "#6b6ecf")
+            .style("opacity", 0.9);
+
+
+        svgContainer.append("circle")
+            .attr("cx", 416)
+            .attr("cy", 12)
+            .attr("r", 10)
+            .style("fill", "#d62728")
+            .style("opacity", 0.9);
+
+        svgContainer.append("circle")
+            .attr("cx", 516)
+            .attr("cy", 12)
+            .attr("r", 10)
+            .style("fill", "#17becf")
+            .style("opacity", 0.9);
+
+        svgContainer.append("circle")
+            .attr("cx", 616)
+            .attr("cy", 12)
+            .attr("r", 10)
+            .style("fill", "#e377c2")
+            .style("opacity", 0.9);
+
+
+
+/***** END Color Legend******/
+
+
 
     /*var circle = L.circle([36.0751, 24.8671], {
         color: 'red',
