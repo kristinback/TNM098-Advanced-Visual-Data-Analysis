@@ -27,7 +27,7 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 
 	})
 
-	d3.csv("data/centroids3.csv", function(poi){
+	d3.csv("data/centroids4.csv", function(poi){
 		testmap = new map2(poi);
 	})
 

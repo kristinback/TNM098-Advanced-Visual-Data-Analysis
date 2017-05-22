@@ -25,24 +25,32 @@ function map2(poi){
     //var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 
     poi.forEach(function(p) {
-        if (p.classification == 1) { // work
+        if (p.classification != 4) {
+            if (p.classification == 1) { // work
             poi_color = '#d62728';
-        }
-        else if (p.classification == 2) { // store
-            poi_color = '#17becf';
-        }
-        else if (p.classification == 3) { // home
-            poi_color = '#6b6ecf';
+            }
+            else if (p.classification == 2) { // store
+                poi_color = '#17becf';
+            }
+            else if (p.classification == 3) { // home
+                poi_color = '#6b6ecf';
+            }
+            var circle = L.circle([p.lat, p.lng], {
+                color: poi_color,
+                fillColor: poi_color,
+                fillOpacity: 1.0,
+                radius: 60
+            }).bindPopup('Place ' + p.name).addTo(mymap);
         }
         else {
             poi_color = '#e377c2'; // other
+            var circle = L.circle([p.lng, p.lat], {
+                color: poi_color,
+                fillColor: poi_color,
+                fillOpacity: 1.0,
+                radius: 30
+            }).bindPopup('Place ' + p.name).addTo(mymap);
         }
-        var circle = L.circle([p.lat, p.lng], {
-            color: poi_color,
-            fillColor: poi_color,
-            fillOpacity: 1.0,
-            radius: 50
-        }).bindPopup('Place ' + p.name).addTo(mymap);
     })
 
     var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
