@@ -135,7 +135,7 @@ function expences(cc_data, loy_data, car_ass){
 
 	function updateData(data, person) {
 		// data : raw cc_data, person : [firstname, lastname]
-		console.log(person);
+		
 
 		cc_person = [];
 		data.forEach(function(d) {
@@ -144,7 +144,7 @@ function expences(cc_data, loy_data, car_ass){
 			}
 		})
 		x.domain(cc_person.map(function(d) { return d[varYaxis]; }));
-		console.log(x.domain());
+		
 		//console.log(cc_person)
 		return cc_person;
 	}
@@ -167,6 +167,25 @@ function expences(cc_data, loy_data, car_ass){
 
 	}
 
+	var top = x.domain()[x.domain().length - 1];
+	var bottom = x.domain()[0];
+	scatter.selectAll("bar")
+        .data(background)
+        .enter().append("rect")
+        .attr('class', 'bar')
+        .attr("fill", function(d) {
+        	if (d.state == "night") { return "black"; }
+            else if (d.state == "fm") { return "pink"; }
+            else if (d.state == "em") { return "orange"; }
+        })
+        .attr("opacity", 0.2)
+        .attr("y", function(d) { return y(d.start); })
+        .attr("x", function(d) { return (x(bottom) - x.rangeBand()/2); }) 
+        .attr("height", function(d) { return y(d.end) - y(d.start); })
+        .attr("width", function(d) { return  (x(top) - x(bottom) + 2*x.rangeBand()); });
+
+
+
 	function draw(creditCard, loyaltyCard, background) {
 		d3.selectAll(".dotSize2").remove();
 		d3.selectAll(".dotSize1").remove();
@@ -182,23 +201,7 @@ function expences(cc_data, loy_data, car_ass){
 			.call(d3.svg.axis().scale(y).orient("left"));
 
 
-		var top = y.domain()[y.domain().length - 1];
-		var bottom = y.domain()[0];
-		// scatter.selectAll("bar")
-  //           .data(background)
-  //           .enter().append("rect")
-  //           .attr('class', 'bar')
-  //           .attr("fill", function(d) {
-  //           	if (d.state == "night") { return "black"; }
-  //           	else if (d.state == "fm") { return "pink"; }
-  //           	else if (d.state == "em") { return "orange"; }
-  //           })
-  //           .attr("opacity", 0.2)
-  //           .attr("x", function(d) { return x(d.start); })
-  //           .attr("y", function(d) { return y(top) - y.rangeBand()/2; }) // y.domain()[y.domain().length - 1]
-  //           .attr("width", function(d) { return x(d.end) - x(d.start); })
-  //           .attr("height", function(d) { return  y(bottom) - y(top) + 2*y.rangeBand(); });
-
+			//x(bottom) - x(top) + 2*x.rangeBand();
 
 
 		var maxPrice1 = d3.max(creditCard, function(d) {return d["price"];});
