@@ -64,9 +64,15 @@ function map2(poi){
         seqData.forEach(function(d) {
             for(var i = 0; i < poi.length; i++) {
                 if (d.store == poi[i].name && id == d.person) {
-                    lineCoords.push([poi[i].lat, poi[i].lng]);
+                    if (d.store == "Other") {
+                        lineCoords.push([poi[i].lng, poi[i].lat]);
+                    }
+                    else {
+                        lineCoords.push([poi[i].lat, poi[i].lng]);
+                    }
+                    //lineCoords.push([poi[i].lat, poi[i].lng]);
                     break;
-                };
+                }
             }
         })
         updateLine(lineCoords);
