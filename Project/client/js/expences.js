@@ -128,15 +128,13 @@ function expences(cc_data, loy_data, car_ass){
 
 	//person_data = updateData(cc_data,["Albina", "Hafon"]);
 	//person_data = updateData(cc_data,["Edvard", "Vann"]);
-	var person_data = updateData(cc_data,["Stenig", "Fusil"]);
-	var loy_trans = updateData(loy_data, ["Stenig", "Fusil"]);
+	var person_data = updateData(cc_data,["Edvard", "Vann"]);
+	var loy_trans = updateData(loy_data, ["Edvard", "Vann"]);
 	//person_data = updateData(cc_data,["Minke", "Mies"]);
 	draw(person_data,loy_trans, background);
 
 	function updateData(data, person) {
 		// data : raw cc_data, person : [firstname, lastname]
-		console.log(person);
-
 		cc_person = [];
 		data.forEach(function(d) {
 			if(d.FirstName == person[0] && d.LastName == person[1]) {
@@ -144,61 +142,50 @@ function expences(cc_data, loy_data, car_ass){
 			}
 		})
 		x.domain(cc_person.map(function(d) { return d[varYaxis]; }));
-		console.log(x.domain());
-		//console.log(cc_person)
 		return cc_person;
 	}
-	function updateLoyData(data, person){
 
-		cc_person = [];
-		fake = {
-			timestamp: "1/6/2017",
-			location: "bla",
-			price: 1
-		}
-		cc_person.push(fake)
-		data.forEach(function(d) {
-			if(d.FirstName == person[0] && d.LastName == person[1]) {
-				cc_person.push(d);
-			}
-		})
-		
-		return cc_person;
+//*************** Background bars for which time of day it is ****************//
+	g.append("g")
+		.attr("class", "axis axis--y")
+		.call(d3.svg.axis().scale(y).orient("left"));
 
-	}
+
+	var top = x.domain()[x.domain().length - 1];
+	var bottom = x.domain()[0];
+	scatter.selectAll("bar")
+        .data(background)
+        .enter().append("rect")
+        .attr('class', 'bar')
+        .attr("fill", function(d) {
+        	if (d.state == "night") { return "black"; }
+            else if (d.state == "fm") { return "pink"; }
+            else if (d.state == "em") { return "orange"; }
+        })
+        .attr("opacity", 0.2)
+        .attr("y", function(d) { return y(d.start); })
+        .attr("x", function(d) { return (x(bottom) - x.rangeBand()/2); }) 
+        .attr("height", function(d) { return y(d.end) - y(d.start); })
+        .attr("width", function(d) { return  (x(top) - x(bottom) + 2*x.rangeBand()); });
+
+
 
 	function draw(creditCard, loyaltyCard, background) {
 		d3.selectAll(".dotSize2").remove();
 		d3.selectAll(".dotSize1").remove();
 		d3.selectAll(".dotCenter1").remove();
+		d3.selectAll("g.axis--x").remove();
+		
 
 		g.append("g")
-		.attr("class", "axis axis--x")
-		.attr("transform", "translate(0," + height + ")")
-		.call(d3.svg.axis().scale(x).orient("bottom"));
-
-		g.append("g")
-			.attr("class", "axis axis--y")
-			.call(d3.svg.axis().scale(y).orient("left"));
+			.attr("class", "axis axis--x")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.svg.axis().scale(x).orient("bottom"));
 
 
-		var top = y.domain()[y.domain().length - 1];
-		var bottom = y.domain()[0];
-		// scatter.selectAll("bar")
-  //           .data(background)
-  //           .enter().append("rect")
-  //           .attr('class', 'bar')
-  //           .attr("fill", function(d) {
-  //           	if (d.state == "night") { return "black"; }
-  //           	else if (d.state == "fm") { return "pink"; }
-  //           	else if (d.state == "em") { return "orange"; }
-  //           })
-  //           .attr("opacity", 0.2)
-  //           .attr("x", function(d) { return x(d.start); })
-  //           .attr("y", function(d) { return y(top) - y.rangeBand()/2; }) // y.domain()[y.domain().length - 1]
-  //           .attr("width", function(d) { return x(d.end) - x(d.start); })
-  //           .attr("height", function(d) { return  y(bottom) - y(top) + 2*y.rangeBand(); });
 
+
+			//x(bottom) - x(top) + 2*x.rangeBand();
 
 
 		var maxPrice1 = d3.max(creditCard, function(d) {return d["price"];});
@@ -206,6 +193,18 @@ function expences(cc_data, loy_data, car_ass){
 
 		var maxPrice2 = d3.max(loyaltyCard, function(d) {return d["price"];});
 		var fraq2 = maxPrice2/x.rangeBand();
+      	//for loyalty card
+      	scatter.selectAll(".dotSize2")
+      		.data(loyaltyCard)
+      		.enter().append("circle")
+      		.attr("class", "dotSize2")
+			.attr("cy", function(d) { return y(d3.time.hour.offset(parseTime2(d[varXaxis]),12)); })
+			.attr("cx", function(d) { return x(d[varYaxis]) + x.rangeBand()/2; }) // + y.bandwidth()/2; 
+			.attr("r", function(d) { return 3 + d.price/(2*fraq2); }) // d.size/fraq ,  d.end - d.begin
+			.style("opacity",0.6)
+			.style("fill", "orange")
+			.on('mouseover', tip2.show)
+      		.on('mouseout', tip2.hide);
 
 		//for credit card
 		scatter.selectAll(".dotSize1")
@@ -223,19 +222,6 @@ function expences(cc_data, loy_data, car_ass){
       			expences1.selectDots(d["location"]);
       			selFeature(d["location"]);
       		});
-
-      	//for loyalty card
-      	scatter.selectAll(".dotSize2")
-      		.data(loyaltyCard)
-      		.enter().append("circle")
-      		.attr("class", "dotSize2")
-			.attr("cy", function(d) { return y(d3.time.hour.offset(parseTime2(d[varXaxis]),12)); })
-			.attr("cx", function(d) { return x(d[varYaxis]) + x.rangeBand()/2 }) // + y.bandwidth()/2; 
-			.attr("r", function(d) { return 3 + d.price/(2*fraq2); }) // d.size/fraq ,  d.end - d.begin
-			.style("opacity",0.6)
-			.style("fill", "orange")
-			.on('mouseover', tip2.show)
-      		.on('mouseout', tip2.hide);
 
       	//center point for credit card
 		scatter.selectAll(".dotCenter1")
@@ -256,11 +242,11 @@ function expences(cc_data, loy_data, car_ass){
 			if(parseInt(car_ass[i]["CarID"]) == value){
 				name[0] = car_ass[i]["FirstName"];
 				name[1] = car_ass[i]["LastName"];
-
 			}
 		});
+		console.log(name);
 
-		loy_data = updateLoyData(loy_data, name);
+		loy_trans = updateData(loy_data, name);
 		person_data = updateData(cc_data, name);
 		draw(person_data, loy_data, background);
 		

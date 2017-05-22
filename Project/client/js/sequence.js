@@ -133,7 +133,6 @@ function sequence(sequence){
 	        .on('mouseover', tip.show)
 	      	.on('mouseout', tip.hide)
 	      	.on("click", function(d){
-				d3.select(this).style("stroke", "black")
 				seq1.selectSeq(d["person"]);
 				selFeature(d["person"]);
 				testmap.setPersonLine(seqData, d.person);
