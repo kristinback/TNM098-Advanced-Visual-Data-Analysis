@@ -136,6 +136,7 @@ function sequence(sequence){
 				d3.select(this).style("stroke", "black")
 				seq1.selectSeq(d["person"]);
 				selFeature(d["person"]);
+				testmap.setPersonLine(seqData, d.person);
 	      	});
 
 
