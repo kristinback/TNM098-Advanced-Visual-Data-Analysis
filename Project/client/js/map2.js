@@ -1,7 +1,7 @@
-function map2(){
+function map2(poi){
 
     // LatLng = Norr, Öst
-	var mymap = L.map('mapid').setView([36.075153, 24.867117], 14);
+	var mymap = L.map('mapid').setView([36.070153, 24.867117], 14);
 
     var imageUrl = 'img/background_map.jpg',
         imageBounds = [[36.045003,24.824002], [36.095303,24.910352]];
@@ -19,28 +19,45 @@ function map2(){
         L.geoJson(data, {style: myStyle}).addTo(mymap);
     });
 
-    d3.csv("data/centroids3.csv", function(poi) {
-        poi.forEach(function(p) {
-            if (p.classification == 1) { // work
-                poi_color = '#d62728';
-            }
-            else if (p.classification == 2) { // store
-                poi_color = '#17becf';
-            }
-            else if (p.classification == 3) { // home
-                poi_color = '#6b6ecf';
-            }
-            else {
-                poi_color = '#e377c2'; // other
-            }
-            var circle = L.circle([p.lat, p.lng], {
-                color: poi_color,
-                fillColor: poi_color,
-                fillOpacity: 1.0,
-                radius: 50
-            }).addTo(mymap);
-        })
-	})
+    var latlngs = [[0,0],  [0, 0]];
+    //var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+
+    poi.forEach(function(p) {
+        if (p.classification == 1) { // work
+            poi_color = '#d62728';
+        }
+        else if (p.classification == 2) { // store
+            poi_color = '#17becf';
+        }
+        else if (p.classification == 3) { // home
+            poi_color = '#6b6ecf';
+        }
+        else {
+            poi_color = '#e377c2'; // other
+        }
+        var circle = L.circle([p.lat, p.lng], {
+            color: poi_color,
+            fillColor: poi_color,
+            fillOpacity: 1.0,
+            radius: 50
+        }).bindPopup('Place ' + p.name).addTo(mymap);
+    })
+
+    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
+
+    function updateLine(coords) {
+        polyline.setLatLngs(coords);
+    }
+    
+    this.setPersonLine = function(personSequence) {
+        
+    }
+    //polyline.setLatLngs([[36.045003,24.824002], [36.095303,24.910352], [36.075153, 24.867117]]);
+
+    /*var pointsLayer = L.featureGroup([points])
+        .bindPopup('Hello world!')
+        .on('click', function() { alert('Clicked on a member of the group!'); })
+        .addTo(map);*/
 
     /*var circle = L.circle([36.0751, 24.8671], {
         color: 'red',
