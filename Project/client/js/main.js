@@ -4,7 +4,7 @@ var barChart1; // = barChart();
 var expences1;// = expences();
 var seq1;
 
-var testmap = map2();
+var testmap;
 
 d3.csv("data/cc_data.csv", function(cc_data) {
 
@@ -21,6 +21,10 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 			d.price = +d.price;
 		})
 		expences1 = expences(cc_data, loy_data);
+	})
+
+	d3.csv("data/centroids3.csv", function(poi){
+		testmap = new map2(poi);
 	})
 
 	// // calculate time spent between all ppl, initate the plot for time spent together

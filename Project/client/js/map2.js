@@ -57,8 +57,16 @@ function map2(poi){
         polyline.setLatLngs(coords);
     }
     
-    this.setPersonLine = function(personSequence) {
-        
+    this.setPersonLine = function(seqData, id) {
+        lineCoords = [];
+        seqData.forEach(function(d) {
+            poi.forEach(function(p) {
+                if (d.store == p.name && id == d.person) {
+                    lineCoords.push([p.lat, p.lng]);
+                };
+            })
+        })
+        updateLine(lineCoords);
     }
     //polyline.setLatLngs([[36.045003,24.824002], [36.095303,24.910352], [36.075153, 24.867117]]);
 
