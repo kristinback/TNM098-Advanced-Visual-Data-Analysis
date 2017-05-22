@@ -54,11 +54,12 @@ function map2(poi){
     this.setPersonLine = function(seqData, id) {
         lineCoords = [];
         seqData.forEach(function(d) {
-            poi.forEach(function(p) {
-                if (d.store == p.name && id == d.person) {
-                    lineCoords.push([p.lat, p.lng]);
+            for(var i = 0; i < poi.length; i++) {
+                if (d.store == poi[i].name && id == d.person) {
+                    lineCoords.push([poi[i].lat, poi[i].lng]);
+                    break;
                 };
-            })
+            }
         })
         updateLine(lineCoords);
     }
