@@ -3,8 +3,9 @@
 var barChart1; // = barChart();
 var expences1;// = expences();
 var seq1;
+var map2 = new map2();
 
-var testmap = map2();
+//var testmap = map2();
 
 d3.csv("data/cc_data.csv", function(cc_data) {
 
@@ -20,7 +21,11 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 		loy_data.forEach(function(d){
 			d.price = +d.price;
 		})
-		expences1 = expences(cc_data, loy_data);
+
+		d3.csv("data/car-assignments.csv", function (car_ass){
+			expences1 = new expences(cc_data, loy_data, car_ass);
+		})
+
 	})
 
 	// // calculate time spent between all ppl, initate the plot for time spent together
@@ -48,6 +53,6 @@ d3.csv("data/cc_data.csv", function(cc_data) {
 
 d3.csv("data/personSeq2.csv", function(data) {
 	var hej = data[2];
-	seq1 = sequence(data);
+	seq1 = new sequence(data);
 });
 
