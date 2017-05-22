@@ -32,11 +32,16 @@ function sequence(sequence){
 	});
 
 	var idDiv = $("#sequence");
+	var idDiv1 = $("#legend1");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 130},
+	var margin = {top: 20, right: 20, bottom: 20, left: 60},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
+    // Set the margin, width and height
+    var margin1 = {top: 5, right: 5, bottom: 5, left: 5},
+        width1 = idDiv1.width() - margin1.right - margin1.left,
+        height1 = idDiv1.height() - margin1.top - margin1.bottom;
 
     var parseTime = d3.time.format("%-m/%-d/%Y %H:%M:%S").parse; // 1/6/2014 7:35:00
 
@@ -126,7 +131,79 @@ function sequence(sequence){
 	        .attr("width", x.rangeBand())
 	        .attr("height", function(d) { return y(parseTime(d["endTime"]))- y(parseTime(d["startTime"])); })
 	        .on('mouseover', tip.show)
-	      	.on('mouseout', tip.hide);
+	      	.on('mouseout', tip.hide)
+	      	.on("click", function(d){
+				d3.select(this).style("stroke", "black")
+				seq1.selectSeq(d["person"]);
+				selFeature(d["person"]);
+	      	});
+
+
+
+	    /*****Color Legend******/
+	var svgContainer = d3.select("#legend1").append("svg")
+	        .attr("width", width1)
+	        .attr("height", height1);
+
+	        svgContainer.append("circle")
+	            .attr("cx", 20)
+	            .attr("cy", 12)
+	            .attr("r", 10)
+	            .style("fill", "#6b6ecf")
+	            .style("opacity", 0.9);
+
+
+	        svgContainer.append("circle")
+	            .attr("cx", 120)
+	            .attr("cy", 12)
+	            .attr("r", 10)
+	            .style("fill", "#d62728")
+	            .style("opacity", 0.9);
+
+	        svgContainer.append("circle")
+	            .attr("cx", 220)
+	            .attr("cy", 12)
+	            .attr("r", 10)
+	            .style("fill", "#17becf")
+	            .style("opacity", 0.9);
+
+	        svgContainer.append("circle")
+	            .attr("cx", 320)
+	            .attr("cy", 12)
+	            .attr("r", 10)
+	            .style("fill", "#e377c2")
+	            .style("opacity", 0.9);
+
+		    svgContainer.append("circle")
+		    	.attr("cx", 600)
+		        .attr("cy", 12)
+		        .attr("r", 10)
+		        .style("fill", "green")
+		        .style("opacity", 0.6);
+
+		 	svgContainer.append("circle")
+		    	.attr("cx", 820)
+		        .attr("cy", 12)
+		        .attr("r", 10)
+		        .style("fill", "orange")
+		        .style("opacity", 0.6);
+
+	/***** END Color Legend******/
+
 	}
+//**************Brushing**************//
+
+	this.selectSeq = function(value){
+		
+
+	};
+
+	//method for selecting features of other components
+    function selFeature(value){
+        expences1.selectDots(value);
+    }
+
+
+
 
 }
