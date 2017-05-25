@@ -174,7 +174,7 @@ function expences(cc_data, loy_data, car_ass){
 		d3.selectAll(".dotSize2").remove();
 		d3.selectAll(".dotSize1").remove();
 		d3.selectAll(".dotCenter1").remove();
-		d3.selectAll("g.axis--x").remove();
+		d3.selectAll("g.axis--h").remove();
 		
 
 		g.append("g")
@@ -248,7 +248,7 @@ function expences(cc_data, loy_data, car_ass){
 
 		loy_trans = updateData(loy_data, name);
 		person_data = updateData(cc_data, name);
-		draw(person_data, loy_data, background);
+		draw(person_data, loy_trans, background);
 		
 	}
 
