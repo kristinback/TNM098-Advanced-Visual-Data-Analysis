@@ -35,7 +35,7 @@ function sequence(sequence){
 	var idDiv1 = $("#legend1");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 60},
+	var margin = {top: 20, right: 20, bottom: 60, left: 60},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
     // Set the margin, width and height
@@ -100,12 +100,12 @@ function sequence(sequence){
 
 	function draw(data) {
 		g.append("g")
-		.attr("class", "axis axis--x")
+		.attr("class", "axis axis--x1")
 		.attr("transform", "translate(0," + height + ")")
 		.call(d3.svg.axis().scale(x).orient("bottom"));
 
 		g.append("g")
-			.attr("class", "axis axis--y")
+			.attr("class", "axis axis--y1")
 			.call(d3.svg.axis().scale(y).orient("left"));
 		
 		// var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
