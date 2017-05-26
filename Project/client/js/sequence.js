@@ -57,8 +57,22 @@ function sequence(sequence){
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
 		.html(function(d) {
-			return "<strong>Place:</strong> <span style='color:red'>" + d["store"];
+			// <span style='color:red'>
+			return "<strong>Place:</strong> " + d["store"] + "<br> Time of activity: " + d["startTime"].substr(11, 5) +
+			"<br> Duration: "
+			 + calcTime(d["startTime"], d["endTime"]);
 		})
+
+	function calcTime(start, end){
+		console.log(start)
+		start = new Date(start);
+		end = new Date(end);
+		//hour = ((end-start)/(1000*60*60)%24);
+		seconds = (((end-start) / 1000) % 60 );
+		minutes = Math.floor(((end-start)/ (1000*60)) % 60);
+		hours   = Math.floor(((end-start) / (1000*60*60)) % 24);
+		return (hours +":"+ minutes +":"+ seconds);
+	}
 
     var g = d3.select("#sequence").append("svg")
               .attr("id", "g1_svg")
