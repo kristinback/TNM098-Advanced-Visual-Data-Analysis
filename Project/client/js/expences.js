@@ -4,7 +4,7 @@ function expences(cc_data, loy_data, car_ass){
 	var idDiv1 = $("#legend1");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 60},
+	var margin = {top: 20, right: 80, bottom: 130, left: 60},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
 
@@ -25,14 +25,8 @@ function expences(cc_data, loy_data, car_ass){
 	var y = d3.time.scale()
 	    .range([0, height]);
 
-	
-
 	var varXaxis = "timestamp";
     var varYaxis = "location";
-
-    /*var xAxis = d3.axisBottom(x);
-    var yAxis = d3.axisLeft(y);*/
-
 
     var tip = d3.tip()
 		.attr('class', 'd3-tip')
@@ -171,6 +165,7 @@ function expences(cc_data, loy_data, car_ass){
 
 
 
+
 	function draw(creditCard, loyaltyCard, background) {
 		d3.selectAll(".dotSize2").remove();
 		d3.selectAll(".dotSize1").remove();
@@ -181,9 +176,12 @@ function expences(cc_data, loy_data, car_ass){
 		g.append("g")
 			.attr("class", "axis axis--h")
 			.attr("transform", "translate(0," + height + ")")
-			.call(d3.svg.axis().scale(x).orient("bottom"));
-
-
+			.call(d3.svg.axis().scale(x).orient("bottom"))
+			.selectAll("text")
+			    .attr("transform", function(d) {
+			        return "rotate(45)translate(" + this.getBBox().width/2 + "," +
+			            this.getBBox().height/2 + ")";
+			    });
 
 
 			//x(bottom) - x(top) + 2*x.rangeBand();

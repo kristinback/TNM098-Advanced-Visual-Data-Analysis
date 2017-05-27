@@ -35,7 +35,7 @@ function sequence(sequence){
 	var idDiv1 = $("#legend1");
 
 	// Set the margin, width and height
-	var margin = {top: 20, right: 20, bottom: 20, left: 60},
+	var margin = {top: 20, right: 20, bottom: 60, left: 60},
     	width = idDiv.width() - margin.right - margin.left,
         height = idDiv.height() - margin.top - margin.bottom;
     // Set the margin, width and height
@@ -57,8 +57,22 @@ function sequence(sequence){
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
 		.html(function(d) {
-			return "<strong>Place:</strong> <span style='color:red'>" + d["store"];
+			// <span style='color:red'>
+			return "<strong>Place:</strong> " + d["store"] + "<br> Time of activity: " + d["startTime"].substr(11, 5) +
+			"<br> Duration: "
+			 + calcTime(d["startTime"], d["endTime"]);
 		})
+
+	function calcTime(start, end){
+		console.log(start)
+		start = new Date(start);
+		end = new Date(end);
+		//hour = ((end-start)/(1000*60*60)%24);
+		seconds = (((end-start) / 1000) % 60 );
+		minutes = Math.floor(((end-start)/ (1000*60)) % 60);
+		hours   = Math.floor(((end-start) / (1000*60*60)) % 24);
+		return (hours +":"+ minutes +":"+ seconds);
+	}
 
     var g = d3.select("#sequence").append("svg")
               .attr("id", "g1_svg")
@@ -100,12 +114,12 @@ function sequence(sequence){
 
 	function draw(data) {
 		g.append("g")
-		.attr("class", "axis axis--x")
+		.attr("class", "axis axis--x1")
 		.attr("transform", "translate(0," + height + ")")
 		.call(d3.svg.axis().scale(x).orient("bottom"));
 
 		g.append("g")
-			.attr("class", "axis axis--y")
+			.attr("class", "axis axis--y1")
 			.call(d3.svg.axis().scale(y).orient("left"));
 		
 		// var maxtime = d3.max(data, function(d) {return x(d.end) - x(d.start);});
