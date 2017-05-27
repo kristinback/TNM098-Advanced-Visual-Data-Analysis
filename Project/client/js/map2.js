@@ -12,14 +12,14 @@ function map2(poi){
     // 36033029, 24494631
     // 36070000, 24555336
 
-    $.getJSON("data/streets.json",function(data){
+    /*$.getJSON("data/streets.json",function(data){
         // add GeoJSON layer to the map once the file is loaded
         var myStyle = {
             "color": "#ffbb78",
             "opacity": 0.5
         };
         L.geoJson(data, {style: myStyle}).addTo(mymap);
-    });
+    });*/
 
     var latlngs = [[0,0],  [0, 0]];
     //var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
@@ -40,7 +40,7 @@ function map2(poi){
                 fillColor: poi_color,
                 fillOpacity: 1.0,
                 radius: 60
-            }).bindPopup('Place ' + p.name).addTo(mymap);
+            }).bindPopup('Place: ' + p.name).addTo(mymap);
         }
         else {
             poi_color = '#e377c2'; // other
@@ -53,7 +53,7 @@ function map2(poi){
         }
     })
 
-    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
+    var polyline = L.polyline(latlngs, {color: 'green'}).addTo(mymap);
 
     function updateLine(coords) {
         polyline.setLatLngs(coords);

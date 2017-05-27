@@ -142,6 +142,7 @@ function expences(cc_data, loy_data, car_ass){
 			}
 		})
 		x.domain(cc_person.map(function(d) { return d[varYaxis]; }));
+		//console.log(cc_person);
 		return cc_person;
 	}
 
@@ -174,11 +175,11 @@ function expences(cc_data, loy_data, car_ass){
 		d3.selectAll(".dotSize2").remove();
 		d3.selectAll(".dotSize1").remove();
 		d3.selectAll(".dotCenter1").remove();
-		d3.selectAll("g.axis--x").remove();
+		d3.selectAll("g.axis--h").remove();
 		
 
 		g.append("g")
-			.attr("class", "axis axis--x")
+			.attr("class", "axis axis--h")
 			.attr("transform", "translate(0," + height + ")")
 			.call(d3.svg.axis().scale(x).orient("bottom"));
 
@@ -193,7 +194,10 @@ function expences(cc_data, loy_data, car_ass){
 
 		var maxPrice2 = d3.max(loyaltyCard, function(d) {return d["price"];});
 		var fraq2 = maxPrice2/x.rangeBand();
+		var top = x.domain()[x.domain().length - 1];
+		var bottom = x.domain()[0];
       	//for loyalty card
+      	//console.log(loyaltyCard);
       	scatter.selectAll(".dotSize2")
       		.data(loyaltyCard)
       		.enter().append("circle")
@@ -212,7 +216,7 @@ function expences(cc_data, loy_data, car_ass){
 			.enter().append("circle")
 			.attr("class", "dotSize1")
 			.attr("cy", function(d) { return y(parseTime(d[varXaxis])); })
-			.attr("cx", function(d) { return x(d[varYaxis]) + x.rangeBand()/2 }) // + y.bandwidth()/2; 
+			.attr("cx", function(d) { return x(d[varYaxis]) + x.rangeBand()/2; }) // + y.bandwidth()/2; 
 			.attr("r", function(d) { return 3 + d.price/(2*fraq1); }) // d.size/fraq ,  d.end - d.begin
 			.style("opacity",0.6)
 			.style("fill", "green")
@@ -247,8 +251,9 @@ function expences(cc_data, loy_data, car_ass){
 		console.log(name);
 
 		loy_trans = updateData(loy_data, name);
+		//loy_trans = updateData(loy_data, ["Edvard", "Vann"]);
 		person_data = updateData(cc_data, name);
-		draw(person_data, loy_data, background);
+		draw(person_data, loy_trans, background);
 		
 	}
 
